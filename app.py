@@ -13,7 +13,7 @@ from urllib.error import HTTPError
 import json
 import os
 
-from jsondb import REPLIES
+from myjsondb import REPLIES
 
 from flask import Flask
 from flask import request
