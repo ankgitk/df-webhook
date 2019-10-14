@@ -33,22 +33,22 @@ def webhook():
     res = processRequest(req)
 
     res = json.dumps(res, indent=4)
-    #print(res)
+    print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
 
 def processRequest(req):
-    print ("here I am....")
+    print ("here in")
     print ("starting processRequest...",req.get("queryResult").get("action"))
     #result.metadata.intentName
     if req.get("result").get("metadata").get("intentName") != "showBankingProductTypes":
         print ("Please check your action name in DialogFlow...")
         return req
     #result.fulfillment.messages[1].payload.messages[1].replies = REPLIES
+    req['result']['fulfillment']['messages'][1]['payload']['messages'][1]['replies'] = REPLIES
     """
-    print("111111111111")
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
     print("1.5 1.5 1.5")
     yql_query = makeYqlQuery(req)
@@ -58,15 +58,16 @@ def processRequest(req):
     yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
     print("3333333333")
     print (yql_url)
-    """
-    result = urlopen(yql_url).read()
-    data = json.loads(result)
+    
+    #result = urlopen(yql_url).read()
+    #data = json.loads(result)
     #for some the line above gives an error and hence decoding to utf-8 might help
     #data = json.loads(result.decode('utf-8'))
-    print("44444444444")
-    print (data)
-    res = makeWebhookResult(data)
-    return res
+    #print("44444444444")
+    #print (data)
+    #res = makeWebhookResult(data)
+    """
+    return req
 
 
 def makeSqlQuery(req):
@@ -75,7 +76,7 @@ def makeSqlQuery(req):
     city = parameters.get("geo-city")
     if city is None:
         return None
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
+    return "select * from  where text='" + city + "')"
 
 
 def makeWebhookResult(data):
