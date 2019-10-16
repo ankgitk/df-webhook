@@ -32,7 +32,9 @@ def webhook():
 
     res = processRequest(req)
 
-    res = json.dumps(res, indent=4)
+    res = json.dumps(res, indent=4,sort_keys=True)
+    print("#"*100)
+    print("NEw modified response")
     print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
@@ -47,9 +49,27 @@ def processRequest(req):
         s= "JSON Error"
         
     print ("starting processRequest...",s)
-    print("Replies payload activated")
-    for i in REPLIES:
-        print(i)
+    if(req['intent']['displayName'] != "showBankingProductTypes"):
+        print("Check your response intent")
+    else:
+        print("Intent VEerified")
+    print("#"*100)
+    try:
+        d= req['fulfillmentMessages'][1]['payload']['messages'][1]['replies']
+    except AttributeError:
+        d= "JSON Error in replies"
+    
+    print("#"*100)
+    print("JSON payload to change")
+    print(d)
+    print(type(d))
+    print("#"*100)
+    req['fulfillmentMessages'][1]['payload']['messages'][1]['replies'] = REPLIES
+    print("New Response")
+    #req = json.dumps(data, indent = 4,sort_keys=True)
+    #print("Replies payload activated")
+    #for i in REPLIES:
+    #    print(i)
     #result.metadata.intentName
     """
     if req.get("result").get("metadata").get("intentName") != "showBankingProductTypes":
