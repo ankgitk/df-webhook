@@ -41,13 +41,23 @@ def webhook():
 
 def processRequest(req):
     print ("here in")
-    print ("starting processRequest...",req.get("queryResult").get("action"))
+    try:
+        s =  req['intent']['displayName']
+    except AttributeError:
+        s= "JSON Error"
+        
+    print ("starting processRequest...",s)
+    print("Replies payload activated")
+    for i in REPLIES:
+        print(i)
     #result.metadata.intentName
+    """
     if req.get("result").get("metadata").get("intentName") != "showBankingProductTypes":
         print ("Please check your action name in DialogFlow...")
         return req
     #result.fulfillment.messages[1].payload.messages[1].replies = REPLIES
     req['result']['fulfillment']['messages'][1]['payload']['messages'][1]['replies'] = REPLIES
+    """
     """
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
     print("1.5 1.5 1.5")
